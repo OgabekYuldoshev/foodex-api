@@ -4,7 +4,7 @@ const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
-
+const cors = require('cors')
 const indexRouter = require("./routes/index");
 const foodsRouter = require("./routes/foods");
 
@@ -23,7 +23,7 @@ mongoose
   .catch((err) => console.log(err));
 
 const app = express();
-
+app.use(cors())
 const { setUser } = require("./middleware/auth");
 app.use(setUser);
 
