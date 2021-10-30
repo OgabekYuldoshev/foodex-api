@@ -4,13 +4,12 @@ const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
-const cors = require('cors')
+const cors = require("cors");
 const indexRouter = require("./routes/index");
 const foodsRouter = require("./routes/foods");
-
+const { io } = require("./controllers/soketApi");
 const v1Router = require("./routes/api/v1");
 const v2Router = require("./routes/api/v2");
-
 
 // DataBase
 const mongoose = require("mongoose");
@@ -23,10 +22,13 @@ mongoose
   .catch((err) => console.log(err));
 
 const app = express();
-app.use(cors())
+app.use(cors());
 const { setUser } = require("./middleware/auth");
 app.use(setUser);
-
+app.use(function (req, res, next) {
+  req.io = io;
+  next();
+});
 const passport = require("passport");
 const flash = require("express-flash");
 const session = require("express-session");
@@ -59,7 +61,6 @@ app.use("/", indexRouter);
 app.use("/api/v1", v1Router);
 app.use("/api/v2", v2Router);
 app.use("/foods", foodsRouter);
-
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

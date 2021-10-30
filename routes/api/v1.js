@@ -1,6 +1,5 @@
 var express = require("express");
 var router = express.Router();
-const { get_published_foods } = require("../../controllers/getters");
 const { Dellers, Foods, Orders } = require("../../config/db");
 const {
   for_deller_register,
