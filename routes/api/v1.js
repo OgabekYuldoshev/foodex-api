@@ -24,21 +24,21 @@ router.get("/foods", token, async (req, res, next) => {
   }
 });
 
-
 router.get("/orders", token, async (req, res, next) => {
   try {
     await Orders.find()
+      .populate('foods.foodID')
       .then((data) => {
         res.status(200).send(data);
       })
       .catch((err) => {
+        console.log(err);
         res.status(204).send(err);
       });
   } catch (error) {
     res.status(500).send(error);
   }
 });
-
 
 router.put("/has_food", token, async (req, res, next) => {
   const { id, has } = req.body;
