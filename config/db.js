@@ -89,7 +89,7 @@ const OrderSchema = new Schema({
     type: String,
     default: 'onhande',
   },
-  payed:{
+  paid:{
     type: Boolean,
     default: false,
   },
