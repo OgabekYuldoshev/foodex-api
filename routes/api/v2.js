@@ -7,6 +7,7 @@ router.post("/order", async (req, res, next) => {
     await Orders.create({
       tableID: req.body.table,
       foods: req.body.foods,
+      total: req.body.total,
     })
       .then((result) => {
         res.status(201).send(result);
