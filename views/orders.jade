@@ -1,0 +1,42 @@
+extends ./layouts/layout
+
+block content
+    .p-4
+        .flex.items-center.justify-between.my-3
+            h1.uppercase.text-2xl.font-medium Orders
+            if success 
+                p.text-green-500.uppercase.font-medium.text-sm= success
+            else if error 
+                p.text-red-500.uppercase.font-medium.text-sm= error
+        table#data.p-4.w-full.divide-y.divide-gray-300
+            thead#head.bg-white
+                tr
+                    th.p-2.border-2.border-gray-100 Order ID
+                    th.p-2.border-2.border-gray-100 Table
+                    th.p-2.border-2.border-gray-100 Foods
+                    th.p-2.border-2.border-gray-100 Date Time
+                    th.p-2.border-2.border-gray-100 Payment
+                    th.p-2.border-2.border-gray-100 Paid 
+                    th.p-2.border-2.border-gray-100 Price 
+                    th.p-2.border-2.border-gray-100.w-8 Actions 
+            tbody 
+                each order in orders
+                    tr.border-b.border-gray-400.py-4
+                        th.p-2= order._id
+                        th.p-2= order.tableID
+                        th.p-2= order.foods.length
+                        th.p-2= moment(order.created).format("YYYY-MM-DD HH:mm")
+                        th.p-2= order.payment
+                        th.p-2= order.paid
+                        th.p-2= order.foods.total
+                        th.flex.justify-between.gap-3.px-5.items-center 
+                            button.btn.btn-sm details 
+                            form(action="/orders/delete_order?_method=DELETE&id=#{order._id}", method="post")
+                                button.btn.btn-sm.btn-error Delete
+
+
+
+
+
+
+                

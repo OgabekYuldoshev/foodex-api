@@ -22,10 +22,11 @@ router.post("/order", async (req, res, next) => {
 });
 
 router.get("/foods/:type", async (req, res, next) => {
+  console.log(req.params.type);
   try {
     await Foods.find({
       type: req.params.type,
-      has: true
+      has: true,
     })
       .then((result) => {
         res.status(200).send(result);

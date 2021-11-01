@@ -8,7 +8,7 @@ block content
         p.text-green-500.uppercase.font-medium.text-sm= success
       else if error 
         p.text-red-500.uppercase.font-medium.text-sm= error
-    form(enctype='multipart/form-data' method="POST" action="/foods/add_food" class="md:justify-between justify-start").flex.flex-wrap.items-center.gap-5.p-5.bg-white.rounded
+    form(enctype='multipart/form-data' method="POST" action="/foods/add_food" class="md:justify-between justify-start").flex.flex-wrap.items-center.gap-5.p-5.bg-white.rounded.shadow
       input(type='file' accept="image/jpg, image/png, image/jpeg" name="photo" required).input.input-bordered.p-1
       select(name="type" required).select.select-bordered.w-full.max-w-xs
         option(disabled='disabled' selected='selected') Choose food type
@@ -26,7 +26,7 @@ block content
     .grid.grid-cols-5.gap-5.my-5
       if foods.length !== 0
         each food in foods
-          .bg-white.rounded.overflow-hidden
+          .bg-white.rounded.overflow-hidden.shadow
             img(src='#{food.photo}', alt='food').w-64.h-40.object-cover.object-center
             .p-4 
               .flex.items-end.justify-between.mb-3

@@ -7,6 +7,8 @@ const logger = require("morgan");
 const cors = require("cors");
 const indexRouter = require("./routes/index");
 const foodsRouter = require("./routes/foods");
+const ordersRouter = require("./routes/orders");
+
 const { io } = require("./controllers/soketApi");
 const v1Router = require("./routes/api/v1");
 const v2Router = require("./routes/api/v2");
@@ -61,6 +63,8 @@ app.use("/", indexRouter);
 app.use("/api/v1", v1Router);
 app.use("/api/v2", v2Router);
 app.use("/foods", foodsRouter);
+app.use("/orders", ordersRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
