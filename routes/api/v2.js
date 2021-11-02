@@ -6,6 +6,7 @@ router.post("/order", async (req, res, next) => {
   try {
     await Orders.create({
       tableID: req.body.table,
+      dellerID: req.body.deller,
       foods: req.body.foods,
       total: req.body.total,
     })
@@ -21,11 +22,10 @@ router.post("/order", async (req, res, next) => {
   }
 });
 
-router.get("/foods/:type", async (req, res, next) => {
-  console.log(req.params.type);
+router.get("/foods/:dellerID", async (req, res, next) => {
   try {
     await Foods.find({
-      type: req.params.type,
+      dellerID: req.params.dellerID,
       has: true,
     })
       .then((result) => {
