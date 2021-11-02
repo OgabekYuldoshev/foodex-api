@@ -10,14 +10,13 @@ router.post("/order", async (req, res, next) => {
       total: req.body.total,
     })
       .then((result) => {
-        res.status(201).send(result);
         req.io.sockets.emit("new_order", { msg: "New Order" });
+        res.status(201).send(result);
       })
       .catch((err) => {
         res.status(400).send(err);
       });
   } catch (error) {
-    console.log(error);
     res.status(500).send(error);
   }
 });

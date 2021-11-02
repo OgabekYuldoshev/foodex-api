@@ -1,7 +1,7 @@
 extends ./layouts/layout
 
 block content
-    .p-4
+    div(x-data="{ modal: false }").p-4
         .flex.items-center.justify-between.my-3
             h1.uppercase.text-2xl.font-medium Orders
             if success 
@@ -28,15 +28,18 @@ block content
                         th.p-2= moment(order.created).format("YYYY-MM-DD HH:mm")
                         th.p-2= order.payment
                         th.p-2= order.paid
-                        th.p-2= order.foods.total
+                        th.p-2= order.total
                         th.flex.justify-between.gap-3.px-5.items-center 
-                            button.btn.btn-sm details 
-                            form(action="/orders/delete_order?_method=DELETE&id=#{order._id}", method="post")
+                            button(@click='modal = true').btn.btn-sm details 
+                            form(action="/orders/delete_order?_method=DELETE&id=#{order._id}" method="post")
                                 button.btn.btn-sm.btn-error Delete
+                    div(x-show="modal"  @click="modal = false" ).fixed.top-0.left-0.w-full.h-screen.flex.items-center.justify-center.bg-black.bg-opacity-50.z-40
+                        div(class="w-1/2" ).bg-white.p-5.rounded.shadow.z-50
+                            h1.text-lg.text-black Order ##{order._id}
+                            
 
 
 
 
 
 
-                

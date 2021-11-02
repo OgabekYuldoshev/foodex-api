@@ -85,6 +85,10 @@ const OrderSchema = new Schema({
     type: Number,
     required: true,
   },
+  show:{
+    type: Boolean,
+    default: false,
+  },
   status:{
     type: Boolean,
     default: false,
