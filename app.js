@@ -10,6 +10,7 @@ const foodsRouter = require("./routes/foods");
 const ordersRouter = require("./routes/orders");
 
 const { io } = require("./controllers/soketApi");
+
 const v1Router = require("./routes/api/v1");
 const v2Router = require("./routes/api/v2");
 
@@ -27,6 +28,7 @@ const app = express();
 app.use(cors());
 const { setUser } = require("./middleware/auth");
 app.use(setUser);
+
 app.use(function (req, res, next) {
   req.io = io;
   next();
