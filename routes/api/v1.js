@@ -69,6 +69,20 @@ router.put("/order/paid", token, async (req, res, next) => {
   }
 });
 
+router.get("/order/show", token, async (req, res, next) => {
+  try {
+    await Orders.findByIdAndUpdate(req.query.id, { show: true })
+      .then((data) => {
+        res.status(200).send("Order SHowed!!!");
+      })
+      .catch((err) => {
+        res.status(204).send(err);
+      });
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
 router.put("/has_food", token, async (req, res, next) => {
   const { id, has } = req.body;
   try {
