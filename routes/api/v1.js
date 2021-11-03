@@ -87,7 +87,7 @@ router.get("/order/show", token, async (req, res, next) => {
   }
 });
 
-router.get("/food/types", token, async (req, res, next) => {
+router.get("/food/types", async (req, res, next) => {
   try {
     await FoodTypes.find()
       .then((data) => {

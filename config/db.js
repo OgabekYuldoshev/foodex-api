@@ -30,23 +30,23 @@ const DellerSchema = new Schema({
     type: String,
     required: true,
   },
-  access:{
-    type:Boolean,
+  access: {
+    type: Boolean,
     default: false,
   },
-  menu:[
+  menu: [
     {
       foodID: {
         type: mongoose.Types.ObjectId,
         ref: "foods",
         required: true,
-      }
+      },
     },
   ],
-  address:{
+  address: {
     type: String,
   },
-  phone:{
+  phone: {
     type: String,
   },
   created: { type: Date, default: Date.now },
@@ -78,16 +78,16 @@ const FoodSchema = new Schema({
   },
   type: {
     type: mongoose.Types.ObjectId,
-    ref: 'types',
+    ref: "types",
     required: true,
   },
   price: {
     type: Number,
     required: true,
   },
-  dellerID:{
+  dellerID: {
     type: mongoose.Types.ObjectId,
-    ref: 'dellers',
+    ref: "dellers",
     required: true,
   },
   has: {
@@ -102,8 +102,9 @@ const OrderSchema = new Schema({
     type: Number,
     required: true,
   },
-  dellerID:{
-    type: Number,
+  dellerID: {
+    type: mongoose.Types.ObjectId,
+    ref: "dellers",
     required: true,
   },
   foods: [
@@ -123,19 +124,19 @@ const OrderSchema = new Schema({
     type: Number,
     required: true,
   },
-  show:{
+  show: {
     type: Boolean,
     default: false,
   },
-  status:{
+  status: {
     type: Boolean,
     default: false,
   },
-  payment:{
+  payment: {
     type: String,
-    default: 'onhande',
+    default: "onhande",
   },
-  paid:{
+  paid: {
     type: Boolean,
     default: false,
   },
@@ -148,6 +149,5 @@ const Foods = mongoose.model("foods", FoodSchema);
 const Dellers = mongoose.model("dellers", DellerSchema);
 const Orders = mongoose.model("orders", OrderSchema);
 const FoodTypes = mongoose.model("types", FoodTypesSchema);
-
 
 module.exports = { User, Foods, Dellers, Orders, FoodTypes };

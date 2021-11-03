@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-const { Orders, Foods } = require("../../config/db");
+const { Orders, Foods, FoodTypes } = require("../../config/db");
 
 router.post("/order", async (req, res, next) => {
   try {
@@ -28,6 +28,7 @@ router.get("/foods/:dellerID", async (req, res, next) => {
       dellerID: req.params.dellerID,
       has: true,
     })
+      .populate("type")
       .then((result) => {
         res.status(200).send(result);
       })
@@ -36,6 +37,41 @@ router.get("/foods/:dellerID", async (req, res, next) => {
       });
   } catch (error) {
     console.log(error);
+    res.status(500).send(error);
+  }
+});
+
+router.get("/foods/:dellerID/:typeID", async (req, res, next) => {
+  try {
+    let typeObj = await FoodTypes.findOne({ slug: req.params.typeID });
+    await Foods.find({
+      dellerID: req.params.dellerID,
+      type: typeObj._id,
+      has: true,
+    })
+      .populate("type")
+      .then((result) => {
+        res.status(200).send(result);
+      })
+      .catch((err) => {
+        res.status(400).send(err);
+      });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
+});
+
+router.get("/food/types", async (req, res, next) => {
+  try {
+    await FoodTypes.find()
+      .then((data) => {
+        res.status(200).send(data);
+      })
+      .catch((err) => {
+        res.status(204).send(err);
+      });
+  } catch (error) {
     res.status(500).send(error);
   }
 });
