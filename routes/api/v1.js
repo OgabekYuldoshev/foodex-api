@@ -188,6 +188,34 @@ router.put("/has_food", token, async (req, res, next) => {
   }
 });
 
+router.put("/user/generateQR", token, async (req, res, next) => {
+  try {
+    await Dellers.findByIdAndUpdate(req.user._id, { tableQR: req.body.tableQR })
+      .then((data) => {
+        res.status(200).send(data);
+      })
+      .catch((err) => {
+        res.status(204).send(err);
+      });
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+router.get("/user/QR", token, async (req, res, next) => {
+  try {
+    await Dellers.findById(req.user._id)
+      .then((data) => {
+        res.status(200).send(data.tableQR);
+      })
+      .catch((err) => {
+        res.status(204).send(err);
+      });
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
 router.post("/register", async (req, res) => {
   try {
     await for_deller_register

@@ -43,6 +43,18 @@ const DellerSchema = new Schema({
   email: {
     type: String,
   },
+  tableQR: [
+    {
+      name:{
+        type: String,
+        required: true,
+      },
+      url: {
+        type: String,
+        required: true,
+      },
+    },
+  ],
   created: { type: Date, default: Date.now },
   updated: { type: Date, default: Date.now },
 });
