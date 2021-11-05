@@ -6,7 +6,7 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const cors = require("cors");
 const indexRouter = require("./routes/index");
-const foodsRouter = require("./routes/foods");
+const dellersRouter = require("./routes/dellers");
 const ordersRouter = require("./routes/orders");
 
 const { io } = require("./controllers/soketApi");
@@ -64,7 +64,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/", indexRouter);
 app.use("/api/v1", v1Router);
 app.use("/api/v2", v2Router);
-app.use("/foods", foodsRouter);
+app.use("/dellers", dellersRouter);
 app.use("/orders", ordersRouter);
 
 

@@ -34,19 +34,13 @@ const DellerSchema = new Schema({
     type: Boolean,
     default: false,
   },
-  menu: [
-    {
-      foodID: {
-        type: mongoose.Types.ObjectId,
-        ref: "foods",
-        required: true,
-      },
-    },
-  ],
   address: {
     type: String,
   },
   phone: {
+    type: String,
+  },
+  email: {
     type: String,
   },
   created: { type: Date, default: Date.now },

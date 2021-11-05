@@ -1,0 +1,63 @@
+extends ./layouts/layout
+
+block content
+  .p-4
+    h1.text-2xl.text-white.uppercase.font-bold.my-4 Dellers
+    .overflow-x-auto
+      table.table.w-full.table-zebra
+        thead
+          tr
+            th Name
+            th Email
+            th Phone
+            th Address
+            th Access
+            th Actions
+        tbody
+          each deller in dellers
+            tr
+              td
+                h1.font-bold= deller.fullname
+                span.badge.badge-outline.badge-sm= deller.username
+              td
+                span= deller.email ? deller.email : "not filled"
+              td
+                span= deller.phone ? deller.phone : "not filled"
+              td
+                span= deller.address ? deller.address : "not filled"
+              td
+                if deller.access
+                  .badge.badge-accent Success
+                else 
+                  .badge.badge-secondary Pending
+              th
+                label.btn.btn-primary.modal-button.btn-sm(for='#{deller._id}') Details
+                input(id="#{deller._id}").modal-toggle(type='checkbox')
+                .modal
+                  .modal-box
+                    .flex.items-center.justify-between
+                      h1.text-xl.font-medium= deller.fullname
+                      label(for="#{deller._id}")
+                        i(class="fas fa-times")
+                    .w-full.shadow.stats.my-2
+                      .stat.place-items-center.place-content-center
+                        .stat-title Foods
+                        .stat-value 0
+                      .stat.place-items-center.place-content-center
+                        .stat-title Orders
+                        .stat-value.text-success 0
+                      .stat.place-items-center.place-content-center
+                        .stat-title Earns
+                        .stat-value.text-error 1,200
+                    .modal-action
+                      form(action="/dellers/give_access?_method=PUT&id=#{deller._id}" method="post")
+                        if deller.access 
+                          button.btn.btn-error.btn-sm
+                            label(for='#{deller._id}') Rejection
+                        else 
+                          button.btn.btn-primary.btn-sm
+                            label(for='#{deller._id}') Give Access
+                      form(action="/dellers/delete_user?_method=DELETE&id=#{deller._id}" method="post")
+                        .tooltip.tooltip-bottom(data-tip='You may lost all data ?')
+                          button(disabled).btn.btn-error.btn-sm
+                            label(for='#{deller._id}') Delete

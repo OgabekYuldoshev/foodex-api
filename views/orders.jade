@@ -1,45 +1,58 @@
 extends ./layouts/layout
 
 block content
-    div(x-data="{ modal: false }").p-4
-        .flex.items-center.justify-between.my-3
-            h1.uppercase.text-2xl.font-medium Orders
-            if success 
-                p.text-green-500.uppercase.font-medium.text-sm= success
-            else if error 
-                p.text-red-500.uppercase.font-medium.text-sm= error
-        table#data.p-4.w-full.divide-y.divide-gray-300
-            thead#head.bg-white
-                tr
-                    th.p-2.border-2.border-gray-100 Order ID
-                    th.p-2.border-2.border-gray-100 Table
-                    th.p-2.border-2.border-gray-100 Foods
-                    th.p-2.border-2.border-gray-100 Date Time
-                    th.p-2.border-2.border-gray-100 Payment
-                    th.p-2.border-2.border-gray-100 Paid 
-                    th.p-2.border-2.border-gray-100 Price 
-                    th.p-2.border-2.border-gray-100.w-8 Actions 
-            tbody 
-                each order in orders
-                    tr.border-b.border-gray-400.py-4
-                        th.p-2= order._id
-                        th.p-2= order.tableID
-                        th.p-2= order.foods.length
-                        th.p-2= moment(order.created).format("YYYY-MM-DD HH:mm")
-                        th.p-2= order.payment
-                        th.p-2= order.paid
-                        th.p-2= order.total
-                        th.flex.justify-between.gap-3.px-5.items-center 
-                            button(@click='modal = true').btn.btn-sm details 
-                            form(action="/orders/delete_order?_method=DELETE&id=#{order._id}" method="post")
-                                button.btn.btn-sm.btn-error Delete
-                    div(x-show="modal"  @click="modal = false" ).fixed.top-0.left-0.w-full.h-screen.flex.items-center.justify-center.bg-black.bg-opacity-50.z-40
-                        div(class="w-1/2" ).bg-white.p-5.rounded.shadow.z-50
-                            h1.text-lg.text-black Order ##{order._id}
-                            
+    .p-4
+        h1.text-2xl.text-white.uppercase.font-bold.my-4 Orders history
+        .overflow-x-auto
+            table.table.w-full.table-zebra
+                thead
+                    tr
+                        th OrderID
+                        th Deller
+                        th Table
+                        th Foods
+                        th Time
+                        th Payment
+                        th Paid 
+                        th Total Price
+                        th Actions
 
-
-
-
-
-
+                tbody.rounded
+                    each order in orders
+                        tr
+                            td= order._id
+                            td= order.dellerID.fullname
+                            td= order.tableID
+                            td= order.foods.length
+                            td= moment(order.created).format("YYYY-MM-DD HH:mm")
+                            td= order.payment
+                            td= order.paid
+                            td= order.total + ' sum'
+                            td.flex.gap-5 
+                                a(href="##{order._id}" class="focus:outline-none hover:text-blue-400 duration-300")
+                                    i(class="fas fa-eye")
+                                    div(id="#{order._id}").modal
+                                        .modal-box
+                                            .flex.items-center.justify-between
+                                                h1.text-xl.font-medium Order Details
+                                                a(href="#")
+                                                    i(class="fas fa-times")
+                                            .overflow-x-auto.mt-5
+                                                table.table.w-full.table-compact
+                                                    thead
+                                                    tr
+                                                        th Name
+                                                        th Price
+                                                        th Quantity
+                                                        th All price
+                                                    tbody
+                                                    each food in order.foods
+                                                        tr
+                                                            td= food.foodID.name
+                                                            td= food.foodID.price
+                                                            td= "x"+food.qty
+                                                            td= food.qty * food.foodID.price
+                                                p.mt-5.text-xl.font-bold= "Total: " + order.total
+                                form(action="/orders/delete_order?_method=DELETE&id=#{order._id}" method="post")
+                                    button(class="focus:outline-none text-red-500")
+                                        i(class="fas fa-trash")

@@ -11,7 +11,7 @@ const queryString = require("query-string");
 var moment = require("moment");
 
 router.get("/", checkAuthenticated, async (req, res, next) => {
-  let orders = await Orders.find();
+  let orders = await Orders.find().populate('foods.foodID').populate('dellerID')
   res.render("orders", {
     title: "FOODEX Orders",
     user: req.user,
