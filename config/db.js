@@ -113,6 +113,9 @@ const OrderSchema = new Schema({
     ref: "dellers",
     required: true,
   },
+  numberClient:{
+    type: Number
+  },
   foods: [
     {
       foodID: {

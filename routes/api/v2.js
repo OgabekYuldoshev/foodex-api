@@ -1,22 +1,45 @@
 var express = require("express");
 var router = express.Router();
 const { Orders, Foods, FoodTypes } = require("../../config/db");
+const { client } = require("../../controllers/twillo.js");
+
+let key = async () => {
+  return await client.verify.services
+    .create({ friendlyName: "Food Export System" })
+    .then((service) => {
+      return service.sid;
+    });
+};
 
 router.post("/order", async (req, res, next) => {
   try {
-    await Orders.create({
-      tableID: req.body.table,
-      dellerID: req.body.deller,
-      foods: req.body.foods,
-      total: req.body.total,
-    })
-      .then((result) => {
-        req.io.sockets.emit("new_order", { msg: "New Order" });
-        res.status(201).send(result);
+    client.verify
+      .services(req.query.smsID)
+      .verificationChecks.create({
+        to: `+${req.body.number}`,
+        code: parseFloat(req.query.code),
       })
-      .catch((err) => {
-        res.status(400).send(err);
-      });
+      .then(async (verification) => {
+        if (verification.valid) {
+          await Orders.create({
+            tableID: req.body.table,
+            dellerID: req.body.deller,
+            numberClient: req.body.number,
+            foods: req.body.foods,
+            total: req.body.total,
+          })
+            .then((result) => {
+              req.io.sockets.emit("new_order", { msg: "New Order" });
+              res.status(201).send(result);
+            })
+            .catch((err) => {
+              res.status(400).send(err);
+            });
+        } else {
+          res.status(400).send("Code Is Invalid, please try again");
+        }
+      })
+      .catch((error) => res.send(error));
   } catch (error) {
     res.status(500).send(error);
   }
@@ -75,5 +98,21 @@ router.get("/food/types", async (req, res, next) => {
     res.status(500).send(error);
   }
 });
+
+router.post("/getCode", async (req, res, next) => {
+  try {
+    client.verify
+      .services(await key())
+      .verifications.create({ to: `+${req.body.number}`, channel: "sms" })
+      .then((verification) => res.send(verification))
+      .catch((err) => res.send(err));
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+// router.get("/verifCode/:code", async (req, res, next) => {
+
+// });
 
 module.exports = router;
