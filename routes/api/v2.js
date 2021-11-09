@@ -111,8 +111,17 @@ router.post("/getCode", async (req, res, next) => {
   }
 });
 
-// router.get("/verifCode/:code", async (req, res, next) => {
-
+// router.get("/send", async (req, res, next) => {
+//   try {
+//     client.messages.create({
+//       body:"Your Verification Code: 56478",
+//       to: "+998945360773",
+//       from:"+17404982797"
+//     }).then((verification) => res.send(verification))
+//       .catch((err) => res.send(err));
+//   } catch (error) {
+//     res.status(500).send(error);
+//   }
 // });
 
 module.exports = router;
