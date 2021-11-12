@@ -13,6 +13,7 @@ const { io } = require("./controllers/soketApi");
 
 const v1Router = require("./routes/api/v1");
 const v2Router = require("./routes/api/v2");
+const adminRouter = require("./routes/api/admin");
 
 // DataBase
 const mongoose = require("mongoose");
@@ -61,12 +62,13 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-app.use("/", indexRouter);
+// app.use("/", indexRouter);
 app.use("/api/v1", v1Router);
 app.use("/api/v2", v2Router);
-app.use("/dellers", dellersRouter);
-app.use("/orders", ordersRouter);
+app.use("/api/admin", adminRouter);
 
+// app.use("/dellers", dellersRouter);
+// app.use("/orders", ordersRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

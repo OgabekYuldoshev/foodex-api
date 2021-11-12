@@ -11,7 +11,7 @@ let key = async () => {
     });
 };
 
-router.post("/order", async (req, res, next) => {
+router.post("/order_by_phone", async (req, res, next) => {
   try {
     client.verify
       .services(req.query.smsID)
@@ -40,6 +40,27 @@ router.post("/order", async (req, res, next) => {
         }
       })
       .catch((error) => res.send(error));
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+router.post("/order_by_card", async (req, res, next) => {
+  try {
+    await Orders.create({
+      tableID: req.body.table,
+      dellerID: req.body.deller,
+      // numberClient: req.body.number,
+      foods: req.body.foods,
+      total: req.body.total,
+    })
+      .then((result) => {
+        req.io.sockets.emit("new_order", { msg: "New Order" });
+        res.status(201).send(result);
+      })
+      .catch((err) => {
+        res.status(400).send(err);
+      });
   } catch (error) {
     res.status(500).send(error);
   }
@@ -116,7 +137,7 @@ router.post("/getCode", async (req, res, next) => {
 //     client.messages.create({
 //       body:"Your Verification Code: 56478",
 //       to: "+998945360773",
-//       from:"+17404982797"
+//       from:"+998335360773"
 //     }).then((verification) => res.send(verification))
 //       .catch((err) => res.send(err));
 //   } catch (error) {
