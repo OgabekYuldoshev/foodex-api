@@ -5,9 +5,9 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const cors = require("cors");
-const indexRouter = require("./routes/index");
-const dellersRouter = require("./routes/dellers");
-const ordersRouter = require("./routes/orders");
+// const indexRouter = require("./routes/index");
+// const dellersRouter = require("./routes/dellers");
+// const ordersRouter = require("./routes/orders");
 
 const { io } = require("./controllers/soketApi");
 
@@ -34,26 +34,26 @@ app.use(function (req, res, next) {
   req.io = io;
   next();
 });
-const passport = require("passport");
-const flash = require("express-flash");
-const session = require("express-session");
-const methodOverride = require("method-override");
+// const passport = require("passport");
+// const flash = require("express-flash");
+// const session = require("express-session");
+// const methodOverride = require("method-override");
 
-app.use(flash());
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-  })
-);
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(methodOverride("_method"));
+// app.use(flash());
+// app.use(
+//   session({
+//     secret: process.env.SESSION_SECRET,
+//     resave: false,
+//     saveUninitialized: false,
+//   })
+// );
+// app.use(passport.initialize());
+// app.use(passport.session());
+// app.use(methodOverride("_method"));
 
 // view engine setup
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "jade");
+// app.set("views", path.join(__dirname, "views"));
+// app.set("view engine", "jade");
 
 app.use(logger("dev"));
 app.use(express.json());
@@ -69,6 +69,10 @@ app.use("/api/admin", adminRouter);
 
 // app.use("/dellers", dellersRouter);
 // app.use("/orders", ordersRouter);
+
+app.get("*", (req, res) => {
+  res.redirect("https://foodex-admin.vercel.app/");
+});
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
