@@ -103,17 +103,17 @@ router.get("/food/types", async (req, res, next) => {
 
 router.post("/add_food", token, upload.any(), async (req, res, next) => {
   try {
-    new Foods.create({
+    await Foods.create({
       photo: `uploads/${req.files[0].filename}`,
       dellerID: req.user._id,
       name: req.body.name,
       type: req.body.type,
       price: req.body.price,
     })
-      .then((result) => {
-        let deller = new Dellers.findById(req.user._id);
+      .then(async (result) => {
+        let deller = await Dellers.findById(req.user._id);
         deller.foods.push(result._id);
-        deller.save((err, done) => {
+        await deller.save((err, done) => {
           if (err) res.status(400).send(err);
           res.status(201).send("New Food Created!");
         });
@@ -122,7 +122,6 @@ router.post("/add_food", token, upload.any(), async (req, res, next) => {
         res.status(400).send(err);
       });
   } catch (error) {
-    console.log(error);
     res.status(500).send(error);
   }
 });
