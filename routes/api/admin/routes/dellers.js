@@ -11,7 +11,6 @@ const { setAdmin } = require("../../../../middleware/auth");
 router.get("/get", async (req, res) => {
   try {
     await Dellers.find()
-      .populate(["foods", "orders"])
       .then((result) => {
         res.status(200).send(result);
       })
