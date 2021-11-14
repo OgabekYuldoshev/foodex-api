@@ -43,6 +43,8 @@ const DellerSchema = new Schema({
   email: {
     type: String,
   },
+  foods:[{ type: Schema.Types.ObjectId, ref: 'foods' }],
+  orders:[{ type: Schema.Types.ObjectId, ref: 'orders' }],
   tableQR: [
     {
       name:{

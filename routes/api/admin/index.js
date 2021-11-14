@@ -1,15 +1,17 @@
 var express = require("express");
 var router = express.Router();
-const { User } = require("../../config/db");
-const { for_register, for_login } = require("../../middleware/validator");
+const { User, Dellers } = require("../../../config/db");
+const { for_register, for_login } = require("../../../middleware/validator");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const token = require("../../middleware/token");
-const { setAdmin } = require("../../middleware/auth");
+const token = require("../../../middleware/token");
+const { setAdmin } = require("../../../middleware/auth");
 
-const { upload } = require("../../middleware/upload");
+const { upload } = require("../../../middleware/upload");
 
 const fs = require("fs");
+
+router.use('/dellers', require("./routes/dellers"))
 
 router.post("/register", async (req, res) => {
   try {
