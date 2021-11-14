@@ -103,15 +103,20 @@ router.get("/food/types", async (req, res, next) => {
 
 router.post("/add_food", token, upload.any(), async (req, res, next) => {
   try {
-    await Foods.create({
+    new Foods.create({
       photo: `uploads/${req.files[0].filename}`,
       dellerID: req.user._id,
       name: req.body.name,
       type: req.body.type,
       price: req.body.price,
     })
-      .then(() => {
-        res.status(201).send("New Food Created!");
+      .then((result) => {
+        let deller = new Dellers.findById(req.user._id);
+        deller.foods.push(result._id);
+        deller.save((err, done) => {
+          if (err) res.status(400).send(err);
+          res.status(201).send("New Food Created!");
+        });
       })
       .catch((err) => {
         res.status(400).send(err);
