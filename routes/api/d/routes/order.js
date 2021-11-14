@@ -1,8 +1,8 @@
 var express = require("express");
 var router = express.Router();
-const { Orders } = require("../../config/db");
+const { Orders } = require("../../../../config/db");
 
-const token = require("../../middleware/token");
+const token = require("../../../../middleware/token");
 
 router.get("/", token, async (req, res, next) => {
   try {

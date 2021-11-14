@@ -1,13 +1,13 @@
 var express = require("express");
 var router = express.Router();
-const { Dellers } = require("../../config/db");
+const { Dellers } = require("../../../config/db");
 const {
   for_deller_register,
   for_deller_login,
-} = require("../../middleware/validator");
+} = require("../../../middleware/validator");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const token = require("../../middleware/token");
+const token = require("../../../middleware/token");
 
 router.use("/order", require("./routes/order"));
 router.use("/foods", require("./routes/foods"));

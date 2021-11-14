@@ -1,7 +1,7 @@
 var express = require("express");
 var router = express.Router();
-const { Orders, Dellers } = require("../../config/db");
-const { client } = require("../../controllers/twillo.js");
+const { Orders, Dellers } = require("../../../../config/db");
+const { client } = require("../../../../controllers/twillo.js");
 const moment = require("moment");
 const today = moment().startOf("day");
 

@@ -1,8 +1,8 @@
 var express = require("express");
 var router = express.Router();
-const { Dellers, Foods, FoodTypes } = require("../../config/db");
-const token = require("../../middleware/token");
-const { upload } = require("../../middleware/upload");
+const { Dellers, Foods, FoodTypes } = require("../../../../config/db");
+const token = require("../../../../middleware/token");
+const { upload } = require("../../../../middleware/upload");
 
 const fs = require("fs");
 

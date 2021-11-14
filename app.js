@@ -26,7 +26,11 @@ mongoose
   .catch((err) => console.log(err));
 
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 const { setUser } = require("./middleware/auth");
 app.use(setUser);
 

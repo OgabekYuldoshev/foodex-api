@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-const { Foods, FoodTypes } = require("../../config/db");
+const { Foods, FoodTypes } = require("../../../../config/db");
 
 
 router.get("/:dellerID", async (req, res, next) => {
