@@ -11,8 +11,8 @@ const cors = require("cors");
 
 const { io } = require("./controllers/soketApi");
 
-const v1Router = require("./routes/api/v1");
-const v2Router = require("./routes/api/v2");
+const CRouter = require("./routes/api/c");
+const DRouter = require("./routes/api/d");
 const adminRouter = require("./routes/api/admin");
 
 // DataBase
@@ -63,8 +63,8 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // app.use("/", indexRouter);
-app.use("/api/v1", v1Router);
-app.use("/api/v2", v2Router);
+app.use("/api/c", CRouter);
+app.use("/api/d", DRouter);
 app.use("/api/admin", adminRouter);
 
 // app.use("/dellers", dellersRouter);

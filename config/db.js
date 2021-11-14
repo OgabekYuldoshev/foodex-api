@@ -43,11 +43,11 @@ const DellerSchema = new Schema({
   email: {
     type: String,
   },
-  foods:[{ type: Schema.Types.ObjectId, ref: 'foods' }],
-  orders:[{ type: Schema.Types.ObjectId, ref: 'orders' }],
+  foods: [{ type: Schema.Types.ObjectId, ref: "foods" }],
+  orders: [{ type: Schema.Types.ObjectId, ref: "orders" }],
   tableQR: [
     {
-      name:{
+      name: {
         type: String,
         required: true,
       },
@@ -106,6 +106,10 @@ const FoodSchema = new Schema({
 });
 
 const OrderSchema = new Schema({
+  number: {
+    type: Number,
+    required: true,
+  },
   tableID: {
     type: Number,
     required: true,
@@ -115,8 +119,8 @@ const OrderSchema = new Schema({
     ref: "dellers",
     required: true,
   },
-  numberClient:{
-    type: Number
+  numberClient: {
+    type: Number,
   },
   foods: [
     {

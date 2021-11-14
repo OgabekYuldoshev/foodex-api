@@ -1,7 +1,10 @@
 var express = require("express");
 var router = express.Router();
-const { Orders, Foods, FoodTypes, Dellers } = require("../../config/db");
-const { client } = require("../../controllers/twillo.js");
+const { Orders, Foods, FoodTypes, Dellers } = require("../../../config/db");
+const { client } = require("../../../controllers/twillo.js");
+
+const moment = require("moment");
+const today = moment().startOf("day");
 
 let key = async () => {
   return await client.verify.services
@@ -10,7 +13,15 @@ let key = async () => {
       return service.sid;
     });
 };
-
+const getOrderNum = async () => {
+  let result = await Orders.find({
+    createdAt: {
+      $gte: today.toDate(),
+      $lte: moment(today).endOf("day").toDate(),
+    },
+  });
+  return result.length + 1;
+};
 router.post("/order_by_phone", async (req, res, next) => {
   try {
     client.verify
@@ -21,7 +32,9 @@ router.post("/order_by_phone", async (req, res, next) => {
       })
       .then(async (verification) => {
         if (verification.valid) {
+          let number = await getOrderNum();
           await Orders.create({
+            number: number,
             tableID: req.body.table,
             dellerID: req.body.deller,
             numberClient: req.body.number,
@@ -52,7 +65,9 @@ router.post("/order_by_phone", async (req, res, next) => {
 
 router.post("/order_by_card", async (req, res) => {
   try {
+    let number = await getOrderNum();
     await Orders.create({
+      number: number,
       tableID: req.body.table,
       dellerID: req.body.deller,
       foods: req.body.foods,
@@ -141,17 +156,9 @@ router.post("/getCode", async (req, res, next) => {
   }
 });
 
-// router.get("/send", async (req, res, next) => {
-//   try {
-//     client.messages.create({
-//       body:"Your Verification Code: 56478",
-//       to: "+998945360773",
-//       from:"+998335360773"
-//     }).then((verification) => res.send(verification))
-//       .catch((err) => res.send(err));
-//   } catch (error) {
-//     res.status(500).send(error);
-//   }
-// });
+router.get("/send", async (req, res, next) => {
+  let n = await getOrderNum();
+  console.log(n);
+});
 
 module.exports = router;
