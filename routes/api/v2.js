@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-const { Orders, Foods, FoodTypes } = require("../../config/db");
+const { Orders, Foods, FoodTypes, Dellers } = require("../../config/db");
 const { client } = require("../../controllers/twillo.js");
 
 let key = async () => {
@@ -28,9 +28,14 @@ router.post("/order_by_phone", async (req, res, next) => {
             foods: req.body.foods,
             total: req.body.total,
           })
-            .then((result) => {
-              req.io.sockets.emit("new_order", { msg: "New Order" });
-              res.status(201).send(result);
+            .then(async (result) => {
+              let deller = await Dellers.findById(req.user._id);
+              deller.orders.push(result._id);
+              await deller.save((err, done) => {
+                if (err) res.status(400).send(err);
+                req.io.sockets.emit("new_order", { msg: "New Order" });
+                res.status(201).send(result);
+              });
             })
             .catch((err) => {
               res.status(400).send(err);
@@ -54,9 +59,14 @@ router.post("/order_by_card", async (req, res, next) => {
       foods: req.body.foods,
       total: req.body.total,
     })
-      .then((result) => {
-        req.io.sockets.emit("new_order", { msg: "New Order" });
-        res.status(201).send(result);
+      .then(async (result) => {
+        let deller = await Dellers.findById(req.user._id);
+        deller.orders.push(result._id);
+        await deller.save((err, done) => {
+          if (err) res.status(400).send(err);
+          req.io.sockets.emit("new_order", { msg: "New Order" });
+          res.status(201).send(result);
+        });
       })
       .catch((err) => {
         res.status(400).send(err);
