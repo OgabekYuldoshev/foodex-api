@@ -29,7 +29,7 @@ router.post("/order_by_phone", async (req, res, next) => {
             total: req.body.total,
           })
             .then(async (result) => {
-              let deller = await Dellers.findById(req.user._id);
+              let deller = await Dellers.findById(req.body.deller);
               deller.orders.push(result._id);
               await deller.save((err, done) => {
                 if (err) res.status(400).send(err);
@@ -50,17 +50,16 @@ router.post("/order_by_phone", async (req, res, next) => {
   }
 });
 
-router.post("/order_by_card", async (req, res, next) => {
+router.post("/order_by_card", async (req, res) => {
   try {
     await Orders.create({
       tableID: req.body.table,
       dellerID: req.body.deller,
-      // numberClient: req.body.number,
       foods: req.body.foods,
       total: req.body.total,
     })
       .then(async (result) => {
-        let deller = await Dellers.findById(req.user._id);
+        let deller = await Dellers.findById(req.body.deller);
         deller.orders.push(result._id);
         await deller.save((err, done) => {
           if (err) res.status(400).send(err);
