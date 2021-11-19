@@ -21,18 +21,21 @@ router.get("/", token, async (req, res, next) => {
 });
 
 router.put("/done", token, async (req, res, next) => {
-  try {
-    await Orders.findByIdAndUpdate(req.body.id, { status: req.body.status })
-      .populate("foods.foodID")
-      .then((data) => {
-        res.status(200).send("Order Done!!!");
-      })
-      .catch((err) => {
-        res.status(204).send(err);
-      });
-  } catch (error) {
-    res.status(500).send(error);
-  }
+  req.io.on("order", (d)=>{
+    console.log(d)
+  })
+  // try {
+  //   await Orders.findByIdAndUpdate(req.body.id, { status: req.body.status })
+  //     .populate("foods.foodID")
+  //     .then((data) => {
+  //       res.status(200).send("Order Done!!!");
+  //     })
+  //     .catch((err) => {
+  //       res.status(204).send(err);
+  //     });
+  // } catch (error) {
+  //   res.status(500).send(error);
+  // }
 });
 
 router.put("/paid", token, async (req, res, next) => {

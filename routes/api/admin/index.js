@@ -12,6 +12,8 @@ const { upload } = require("../../../middleware/upload");
 const fs = require("fs");
 
 router.use('/dellers', require("./routes/dellers"))
+router.use('/orders', require("./routes/orders"))
+
 
 router.post("/register", async (req, res) => {
   try {
