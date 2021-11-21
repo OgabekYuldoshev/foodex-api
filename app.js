@@ -15,7 +15,6 @@ const CRouter = require("./routes/api/c");
 const DRouter = require("./routes/api/d");
 const adminRouter = require("./routes/api/admin");
 
-// DataBase
 const mongoose = require("mongoose");
 mongoose
   .connect(process.env.DATABASE, {
@@ -24,6 +23,7 @@ mongoose
   })
   .then(() => console.log("DataBase Connected!"))
   .catch((err) => console.log(err));
+
 
 const app = express();
 app.use(

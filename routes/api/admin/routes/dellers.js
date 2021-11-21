@@ -1,14 +1,13 @@
 var express = require("express");
 var router = express.Router();
-const { User, Dellers, Orders } = require("../../../../config/db");
-const { for_register, for_login } = require("../../../../middleware/validator");
+const { User, Dellers, Orders, Foods } = require("../../../../config/db");
 
 const token = require("../../../../middleware/token");
 const { setAdmin } = require("../../../../middleware/auth");
 
 // const { upload } = require("../../../middleware/upload");
 
-router.get("/get", async (req, res) => {
+router.get("/get", token, async (req, res) => {
   try {
     await Dellers.find()
       .then((result) => {
@@ -22,11 +21,14 @@ router.get("/get", async (req, res) => {
   }
 });
 
-router.get("/delete", async (req, res) => {
+router.put("/give_access", token, async (req, res, next) => {
   try {
-    await Orders.deleteMany()
-      .then((result) => {
-        res.status(200).send(result);
+    const deller = await Dellers.findById(req.query.id);
+    deller.access = !deller.access;
+    await deller
+      .save()
+      .then(() => {
+        res.status(200).send("Deller Access Updated");
       })
       .catch((err) => {
         res.status(400).send(err);
@@ -35,5 +37,31 @@ router.get("/delete", async (req, res) => {
     res.status(500).send(error);
   }
 });
+
+router.delete("/delete", token, async (req, res, next) => {
+  try {
+    await Dellers.findByIdAndDelete(req.query.id);
+    await Foods.deleteMany({ dellerID: req.query.id });
+    await Orders.deleteMany({ dellerID: req.query.id });
+    res.status(200).send("Deller Access Updated");
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
+});
+
+// router.get("/delete", async (req, res) => {
+//   try {
+//     await Orders.deleteMany()
+//       .then((result) => {
+//         res.status(200).send(result);
+//       })
+//       .catch((err) => {
+//         res.status(400).send(err);
+//       });
+//   } catch (error) {
+//     res.status(500).send(error);
+//   }
+// });
 
 module.exports = router;

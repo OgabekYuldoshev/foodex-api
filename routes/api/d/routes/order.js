@@ -5,8 +5,9 @@ const { Orders } = require("../../../../config/db");
 const token = require("../../../../middleware/token");
 
 router.get("/", token, async (req, res, next) => {
+  console.log(req.user)
   try {
-    await Orders.find()
+    await Orders.find({dellerID: req.user._id})
       .populate("foods.foodID")
       .then((data) => {
         res.status(200).send(data);

@@ -8,7 +8,7 @@ const fs = require("fs");
 
 router.get("/", token, async (req, res, next) => {
   try {
-    await Foods.find()
+    await Foods.find({ dellerID: req.user._id })
       .populate("type")
       .then((data) => {
         res.status(200).send(data);

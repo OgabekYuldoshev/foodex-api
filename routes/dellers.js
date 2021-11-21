@@ -19,36 +19,6 @@ router.get("/", checkAuthenticated, async (req, res, next) => {
   });
 });
 
-router.put("/give_access", checkAuthenticated, async (req, res, next) => {
-  const deller = await Dellers.findById(req.query.id);
-  deller.access = !deller.access;
-  await deller
-    .save()
-    .then(() => {
-      res.locals.success = "Deller Access Updated";
-      res.status(201);
-      res.redirect("/dellers");
-    })
-    .catch((err) => {
-      res.locals.error = err;
-      res.status(500);
-      res.redirect("/dellers");
-    });
-});
-
-// router.delete("/delete_user", checkAuthenticated, async (req, res, next) => {
-//   try {
-//     await Dellers.findByIdAndDelete(req.query.id);
-//     await Foods.deleteMany({ dellerID: req.query.id });
-//     res.locals.success = "Deller Deleted";
-//     res.status(201);
-//     res.redirect("/dellers");
-//   } catch (error) {
-//     res.locals.error = err;
-//     res.status(500);
-//     res.redirect("/dellers");
-//   }
-// });
 
 // router.post("/add_food", checkAuthenticated, upload.any(), async(req, res, next) => {
 //   await Foods.create({

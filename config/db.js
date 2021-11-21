@@ -42,6 +42,8 @@ const DellerSchema = new Schema({
   },
   email: {
     type: String,
+    unique: true,
+    lowercase: true,
   },
   foods: [{ type: Schema.Types.ObjectId, ref: "foods" }],
   orders: [{ type: Schema.Types.ObjectId, ref: "orders" }],
