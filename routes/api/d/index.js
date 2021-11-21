@@ -10,6 +10,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const token = require("../../../middleware/token");
 // const hbs = require("nodemailer-express-handlebars");
+const { dellerUrl } = require("../../../constants");
 
 router.use("/order", require("./routes/order"));
 router.use("/foods", require("./routes/foods"));
@@ -66,7 +67,7 @@ router.get("/email_verify", async (req, res) => {
       access: true,
     })
       .then(() => {
-        res.redirect("/");
+        res.redirect(dellerUrl);
       })
       .catch((err) => {
         res.status(400).send(err);
@@ -78,7 +79,6 @@ router.get("/email_verify", async (req, res) => {
 
 // Email Verification Again
 router.get("/verifyByEmail", token, async (req, res) => {
-  console.log(req.user);
   try {
     await Dellers.findById(req.user._id)
       .then((result) => {
