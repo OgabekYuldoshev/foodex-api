@@ -197,7 +197,14 @@ router.post("/login", async (req, res) => {
 
 router.get("/user", token, async (req, res) => {
   try {
-    res.send(req.user);
+    await Dellers.findById(req.user._id)
+      .select("-password")
+      .then((result) => {
+        res.status(200).end(result);
+      })
+      .catch((err) => {
+        res.status(400).end(err);
+      });
   } catch (error) {
     res.send(error, 500);
   }
