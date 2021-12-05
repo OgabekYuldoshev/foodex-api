@@ -6,7 +6,6 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const cors = require("cors");
 
-
 const { io } = require("./controllers/soketApi");
 
 const CRouter = require("./routes/api/c");
@@ -30,7 +29,6 @@ app.use(
 );
 const { setUser } = require("./middleware/auth");
 app.use(setUser);
-
 
 app.use(function (req, res, next) {
   req.io = io;
@@ -64,17 +62,17 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// app.use("/", indexRouter);
 app.use("/api/c", CRouter);
 app.use("/api/d", DRouter);
 app.use("/api/admin", adminRouter);
 
-// app.use("/dellers", dellersRouter);
-// app.use("/orders", ordersRouter);
 
-app.get("*", (req, res) => {
-  res.redirect("https://foodex-admin.vercel.app/");
-});
+
+if (process.env.NODE_ENV == "production") {
+  app.get("*", (req, res) => {
+    res.redirect("https://foodex-admin.vercel.app/");
+  });
+}
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

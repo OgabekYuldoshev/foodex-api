@@ -38,7 +38,6 @@ router.get("/:dellerID/:typeID", async (req, res, next) => {
         res.status(400).send(err);
       });
   } catch (error) {
-    console.log(error);
     res.status(500).send(error);
   }
 });

@@ -181,14 +181,14 @@ router.post("/login", async (req, res) => {
               );
               res.send({ token: token });
             }
-            res.send({ msg: "Username or Password is incorrect!" });
+            res.status(530).send({ msg: "Username or Password is incorrect!" });
           })
           .catch((err) =>
-            res.send({ msg: "Username or Password is incorrect!" })
+            res.status(530).send({ msg: "Username or Password is incorrect!" })
           );
       })
       .catch((err) => {
-        res.send(err.details[0].message);
+        res.status(400).send(err.details[0].message);
       });
   } catch (error) {
     res.status(500).send(error);
