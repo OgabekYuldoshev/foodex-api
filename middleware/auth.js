@@ -11,7 +11,7 @@ async function setUser(req, res, next) {
         req.user = result;
       })
       .catch((error) => {
-        res.status(500).send(error);
+        res.status(500).json(error);
       });
   }
   next();
@@ -27,7 +27,7 @@ async function setAdmin(req, res, next) {
         req.admin = result;
       })
       .catch((error) => {
-        res.status(500).send(error);
+        res.status(500).json(error);
       });
   }
   next();
