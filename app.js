@@ -5,9 +5,7 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const cors = require("cors");
-// const indexRouter = require("./routes/index");
-// const dellersRouter = require("./routes/dellers");
-// const ordersRouter = require("./routes/orders");
+
 
 const { io } = require("./controllers/soketApi");
 
@@ -24,7 +22,6 @@ mongoose
   .then(() => console.log("DataBase Connected!"))
   .catch((err) => console.log(err));
 
-
 const app = express();
 app.use(
   cors({
@@ -33,6 +30,7 @@ app.use(
 );
 const { setUser } = require("./middleware/auth");
 app.use(setUser);
+
 
 app.use(function (req, res, next) {
   req.io = io;
