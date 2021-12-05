@@ -35,13 +35,13 @@ router.put("/user/generateQR", token, async (req, res, next) => {
   try {
     await Dellers.findByIdAndUpdate(req.user._id, { tableQR: req.body.tableQR })
       .then((data) => {
-        res.status(200).send(data);
+        res.status(200).json(data);
       })
       .catch((err) => {
-        res.status(204).send(err);
+        res.status(204).json(err);
       });
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json(error);
   }
 });
 
@@ -50,13 +50,13 @@ router.get("/user/QR", token, async (req, res, next) => {
   try {
     await Dellers.findById(req.user._id)
       .then((data) => {
-        res.status(200).send(data.tableQR);
+        res.status(200).json(data.tableQR);
       })
       .catch((err) => {
-        res.status(204).send(err);
+        res.status(204).json(err);
       });
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json(error);
   }
 });
 
@@ -70,10 +70,10 @@ router.get("/email_verify", async (req, res) => {
         res.redirect(dellerUrl);
       })
       .catch((err) => {
-        res.status(400).send(err);
+        res.status(400).json(err);
       });
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json(error);
   }
 });
 
@@ -91,20 +91,20 @@ router.get("/verifyByEmail", token, async (req, res) => {
           subject: "Please confirm your Email account",
           html: `<a href="${link}">Verif Your Account</a>`,
         };
-        transport.sendMail(mailOptions, function (error, response) {
+        transport.jsonMail(mailOptions, function (error, response) {
           if (error) {
             console.log(error);
             res.end(error);
           } else {
-            res.status(200).send({ msg: "Please, check your email" });
+            res.status(200).json({ msg: "Please, check your email" });
           }
         });
       })
       .catch((err) => {
-        res.status(400).send(err);
+        res.status(400).json(err);
       });
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json(error);
   }
 });
 
@@ -138,23 +138,23 @@ router.post("/register", async (req, res) => {
               subject: "Please confirm your Email account",
               html: `<a href="${link}">Verif Your Account</a>`,
             };
-            transport.sendMail(mailOptions, function (error, response) {
+            transport.jsonMail(mailOptions, function (error, response) {
               if (error) {
                 res.end(error);
               } else {
                 res
                   .status(201)
-                  .send({ msg: "Please, check your Email and verif" });
+                  .json({ msg: "Please, check your Email and verif" });
               }
             });
           })
-          .catch((err) => res.status(400).send(err));
+          .catch((err) => res.status(400).json(err));
       })
       .catch((err) => {
-        res.status(500).send(err.details[0].message);
+        res.status(500).json(err.details[0].message);
       });
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json(error);
   }
 });
 
@@ -179,19 +179,19 @@ router.post("/login", async (req, res) => {
                 },
                 process.env.MYTOKENSECRET
               );
-              res.send({ token: token });
+              res.json({ token: token });
             }
-            res.status(530).send({ msg: "Username or Password is incorrect!" });
+            res.status(530).json({ msg: "Username or Password is incorrect!" });
           })
           .catch((err) =>
-            res.status(530).send({ msg: "Username or Password is incorrect!" })
+            res.status(530).json({ msg: "Username or Password is incorrect!" })
           );
       })
       .catch((err) => {
-        res.status(400).send(err.details[0].message);
+        res.status(400).json(err.details[0].message);
       });
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json(error);
   }
 });
 
@@ -200,13 +200,13 @@ router.get("/user", token, async (req, res) => {
     await Dellers.findById(req.user._id)
       .select("-password")
       .then((result) => {
-        res.status(200).send(result);
+        res.status(200).json(result);
       })
       .catch((err) => {
-        res.status(400).send(err);
+        res.status(400).json(err);
       });
   } catch (error) {
-    res.send(error, 500);
+    res.json(error, 500);
   }
 });
 

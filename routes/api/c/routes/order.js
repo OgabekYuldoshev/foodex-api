@@ -45,21 +45,21 @@ router.post("/by_phone", async (req, res, next) => {
               let deller = await Dellers.findById(req.body.deller);
               deller.orders.push(result._id);
               await deller.save((err, done) => {
-                if (err) res.status(400).send(err);
+                if (err) res.status(400).json(err);
                 req.io.sockets.emit("new_order", { msg: "New Order" });
-                res.status(201).send(result);
+                res.status(201).json(result);
               });
             })
             .catch((err) => {
-              res.status(400).send(err);
+              res.status(400).json(err);
             });
         } else {
-          res.status(400).send("Code Is Invalid, please try again");
+          res.status(400).json("Code Is Invalid, please try again");
         }
       })
-      .catch((error) => res.send(error));
+      .catch((error) => res.json(error));
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json(error);
   }
 });
 
@@ -77,16 +77,16 @@ router.post("/by_card", async (req, res) => {
         let deller = await Dellers.findById(req.body.deller);
         deller.orders.push(result._id);
         await deller.save((err, done) => {
-          if (err) res.status(400).send(err);
+          if (err) res.status(400).json(err);
           req.io.sockets.emit("new_order", { msg: "New Order" });
-          res.status(201).send(result);
+          res.status(201).json(result);
         });
       })
       .catch((err) => {
-        res.status(400).send(err);
+        res.status(400).json(err);
       });
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json(error);
   }
 });
 
@@ -95,10 +95,10 @@ router.post("/getCode", async (req, res, next) => {
     client.verify
       .services(await key())
       .verifications.create({ to: `+${req.body.number}`, channel: "sms" })
-      .then((verification) => res.send(verification))
-      .catch((err) => res.send(err));
+      .then((verification) => res.json(verification))
+      .catch((err) => res.json(err));
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json(error);
   }
 });
 

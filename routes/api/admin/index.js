@@ -28,15 +28,15 @@ router.post("/register", async (req, res) => {
           password: hashPassword,
         })
           .then((result) => {
-            res.status(201).send({ msg: "New User Created" });
+            res.status(201).json({ msg: "New User Created" });
           })
-          .catch((err) => res.status(400).send(err));
+          .catch((err) => res.status(400).json(err));
       })
       .catch((err) => {
-        res.status(500).send(err.details[0].message);
+        res.status(500).json(err.details[0].message);
       });
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json(error);
   }
 });
 
@@ -58,28 +58,28 @@ router.post("/login", async (req, res) => {
                 },
                 process.env.MYTOKENSECRET
               );
-              res.status(200).send({ token: token });
+              res.status(200).json({ token: token });
             }
-            res.send({ msg: "Username or Password is incorrect!" });
+            res.json({ msg: "Username or Password is incorrect!" });
           })
           .catch((err) =>
-            res.send({ msg: "Username or Password is incorrect!" })
+            res.json({ msg: "Username or Password is incorrect!" })
           );
       })
       .catch((err) => {
-        res.send(err);
+        res.json(err);
       });
   } catch (error) {
     console.log(error);
-    res.status(500).send(error);
+    res.status(500).json(error);
   }
 });
 
 router.get("/user", token, setAdmin, async (req, res) => {
   try {
-    res.send(req.admin);
+    res.json(req.admin);
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json(error);
   }
 });
 

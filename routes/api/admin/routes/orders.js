@@ -12,13 +12,13 @@ router.get("/get", async (req, res) => {
       .populate("foods.foodID")
       .populate("dellerID")
       .then((result) => {
-        res.status(200).send(result);
+        res.status(200).json(result);
       })
       .catch((err) => {
-        res.status(400).send(err);
+        res.status(400).json(err);
       });
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json(error);
   }
 });
 
@@ -26,13 +26,13 @@ router.get("/get", async (req, res) => {
 //   try {
 //     await Orders.deleteMany()
 //       .then((result) => {
-//         res.status(200).send(result);
+//         res.status(200).json(result);
 //       })
 //       .catch((err) => {
-//         res.status(400).send(err);
+//         res.status(400).json(err);
 //       });
 //   } catch (error) {
-//     res.status(500).send(error);
+//     res.status(500).json(error);
 //   }
 // });
 

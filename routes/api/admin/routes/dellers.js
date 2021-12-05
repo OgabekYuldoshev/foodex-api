@@ -11,13 +11,13 @@ router.get("/get", token, async (req, res) => {
   try {
     await Dellers.find()
       .then((result) => {
-        res.status(200).send(result);
+        res.status(200).json(result);
       })
       .catch((err) => {
-        res.status(400).send(err);
+        res.status(400).json(err);
       });
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json(error);
   }
 });
 
@@ -28,13 +28,13 @@ router.put("/give_access", token, async (req, res, next) => {
     await deller
       .save()
       .then(() => {
-        res.status(200).send("Deller Access Updated");
+        res.status(200).json("Deller Access Updated");
       })
       .catch((err) => {
-        res.status(400).send(err);
+        res.status(400).json(err);
       });
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json(error);
   }
 });
 
@@ -43,10 +43,10 @@ router.delete("/delete", token, async (req, res, next) => {
     await Dellers.findByIdAndDelete(req.query.id);
     await Foods.deleteMany({ dellerID: req.query.id });
     await Orders.deleteMany({ dellerID: req.query.id });
-    res.status(200).send("Deller Access Updated");
+    res.status(200).json("Deller Access Updated");
   } catch (error) {
     console.log(error);
-    res.status(500).send(error);
+    res.status(500).json(error);
   }
 });
 
@@ -54,13 +54,13 @@ router.delete("/delete", token, async (req, res, next) => {
 //   try {
 //     await Orders.deleteMany()
 //       .then((result) => {
-//         res.status(200).send(result);
+//         res.status(200).json(result);
 //       })
 //       .catch((err) => {
-//         res.status(400).send(err);
+//         res.status(400).json(err);
 //       });
 //   } catch (error) {
-//     res.status(500).send(error);
+//     res.status(500).json(error);
 //   }
 // });
 
