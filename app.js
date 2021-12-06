@@ -5,12 +5,14 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const cors = require("cors");
-
 const { io } = require("./controllers/soketApi");
+const requestIp = require("request-ip");
 
 const CRouter = require("./routes/api/c");
 const DRouter = require("./routes/api/d");
 const adminRouter = require("./routes/api/admin");
+const { setUser } = require("./middleware/auth");
+
 
 const mongoose = require("mongoose");
 mongoose
@@ -27,8 +29,21 @@ app.use(
     origin: "*",
   })
 );
-const { setUser } = require("./middleware/auth");
+app.use(requestIp.mw());
 app.use(setUser);
+
+const { generator } = require("./utils");
+
+app.get("/generate", (req, res) => {
+  try {
+    console.log(req.clientIp)
+    res.send(req.clientIp);
+
+    // res.redirect(`${process.env.CLIENT_WEB}?generation_code=${generator(50)}`)
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
 
 app.use(function (req, res, next) {
   req.io = io;
@@ -65,8 +80,6 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/api/c", CRouter);
 app.use("/api/d", DRouter);
 app.use("/api/admin", adminRouter);
-
-
 
 if (process.env.NODE_ENV == "production") {
   app.get("*", (req, res) => {
