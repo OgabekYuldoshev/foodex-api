@@ -16,6 +16,21 @@ const UserSchema = new Schema({
   },
 });
 
+const ConnectionSchema = new Schema({
+  IP: {
+    type: String,
+    required: true,
+  },
+  connection: {
+    type: String,
+    required: true,
+  },
+  generate: {
+    type: String,
+    required: true,
+  },
+});
+
 const DellerSchema = new Schema({
   username: {
     type: String,
@@ -108,6 +123,9 @@ const FoodSchema = new Schema({
 });
 
 const OrderSchema = new Schema({
+  clientIP: {
+    type: String,
+  },
   number: {
     type: Number,
     required: true,
@@ -166,5 +184,7 @@ const Foods = mongoose.model("foods", FoodSchema);
 const Dellers = mongoose.model("dellers", DellerSchema);
 const Orders = mongoose.model("orders", OrderSchema);
 const FoodTypes = mongoose.model("types", FoodTypesSchema);
+const Connection = mongoose.model("connection", ConnectionSchema);
 
-module.exports = { User, Foods, Dellers, Orders, FoodTypes };
+
+module.exports = { User, Foods, Dellers, Orders, FoodTypes, Connection };

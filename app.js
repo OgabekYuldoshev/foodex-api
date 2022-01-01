@@ -34,17 +34,6 @@ app.use(setUser);
 
 const { generator } = require("./utils");
 
-app.get("/generate", (req, res) => {
-  try {
-    console.log(req.clientIp)
-    res.send(req.clientIp);
-
-    // res.redirect(`${process.env.CLIENT_WEB}?generation_code=${generator(50)}`)
-  } catch (error) {
-    res.status(500).json(error);
-  }
-});
-
 app.use(function (req, res, next) {
   req.io = io;
   next();

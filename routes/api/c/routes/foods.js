@@ -42,7 +42,7 @@ router.get("/:dellerID/:typeID", async (req, res, next) => {
   }
 });
 
-router.get("/types", async (req, res, next) => {
+router.get("/", async (req, res) => {
   try {
     await FoodTypes.find()
       .then((data) => {

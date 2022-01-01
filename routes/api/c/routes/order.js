@@ -34,6 +34,7 @@ router.post("/by_phone", async (req, res, next) => {
         if (verification.valid) {
           let number = await getOrderNum();
           await Orders.create({
+            clientIP: req?.ip,
             number: number,
             tableID: req.body.table,
             dellerID: req.body.deller,
@@ -67,6 +68,7 @@ router.post("/by_card", async (req, res) => {
   try {
     let number = await getOrderNum();
     await Orders.create({
+      clientIP: req?.ip,
       number: number,
       tableID: req.body.table,
       dellerID: req.body.deller,
