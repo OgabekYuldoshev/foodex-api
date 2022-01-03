@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 const { Orders, Dellers } = require("../../../../config/db");
 const { client } = require("../../../../controllers/twillo.js");
+const ip = require('ip')
 const moment = require("moment");
 const today = moment().startOf("day");
 
@@ -34,7 +35,7 @@ router.post("/by_phone", async (req, res, next) => {
         if (verification.valid) {
           let number = await getOrderNum();
           await Orders.create({
-            clientIP: req?.ip,
+            clientIP: ip.address(),
             number: number,
             tableID: req.body.table,
             dellerID: req.body.deller,
@@ -68,7 +69,7 @@ router.post("/by_card", async (req, res) => {
   try {
     let number = await getOrderNum();
     await Orders.create({
-      clientIP: req?.ip,
+      clientIP: ip.address(),
       number: number,
       tableID: req.body.table,
       dellerID: req.body.deller,
