@@ -13,7 +13,7 @@ router.get("/order/pdf/:id", async (req, res) => {
             filePath: filePath,
             content: { order }
         });
-        res.download(path.resolve(file)).redirect('back')
+        res.download(path.resolve(file))
     } catch (error) {
         console.log(error)
     }
