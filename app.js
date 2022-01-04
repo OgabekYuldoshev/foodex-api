@@ -11,6 +11,7 @@ const requestIp = require("request-ip");
 const CRouter = require("./routes/api/c");
 const DRouter = require("./routes/api/d");
 const adminRouter = require("./routes/api/admin");
+const documentRouter = require("./routes/api/documents");
 const { setUser } = require("./middleware/auth");
 
 
@@ -69,6 +70,8 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/api/c", CRouter);
 app.use("/api/d", DRouter);
 app.use("/api/admin", adminRouter);
+app.use("/api/documents", documentRouter);
+
 
 if (process.env.NODE_ENV == "production") {
   app.get("*", (req, res) => {
